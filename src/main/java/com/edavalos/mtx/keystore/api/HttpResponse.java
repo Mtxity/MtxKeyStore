@@ -7,6 +7,7 @@ public enum HttpResponse {
     RESPONSE_201(201, HttpStatus.CREATED, "Created"),
     RESPONSE_400(400, HttpStatus.BAD_REQUEST, "Bad Request"),
     RESPONSE_401(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
+    RESPONSE_403(403, HttpStatus.FORBIDDEN, "Forbidden"),
     RESPONSE_404(404, HttpStatus.NOT_FOUND, "Not Found");
 
     private final int code;
