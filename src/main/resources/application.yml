@@ -4,3 +4,5 @@ server:
 app:
   # In Java ZoneOffset notation (https://docs.oracle.com/javase/8/docs/api/java/time/ZoneOffset.html#of-java.lang.String-)
   timezone: UTC
+  # Auth token (for use in this app)
+  authToken: e35acfe4e0b54d488b687a64914197ad

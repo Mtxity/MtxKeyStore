@@ -10,6 +10,7 @@ import java.time.ZoneOffset;
 @ConfigurationProperties(prefix = "app")
 public class SpringConfig {
     private String timezone;
+    private String authToken;
 
     public ZoneOffset getTimezone() {
         ZoneOffset zoneOffset;
@@ -24,5 +25,13 @@ public class SpringConfig {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    public String getAuthToken() {
+        return this.authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 }

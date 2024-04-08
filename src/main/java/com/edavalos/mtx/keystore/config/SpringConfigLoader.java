@@ -22,4 +22,8 @@ public final class SpringConfigLoader {
     public static ZoneOffset getTimezone() {
         return config.springConfig.getTimezone();
     }
+
+    public static String getAuthToken() {
+        return config.springConfig.getAuthToken();
+    }
 }
