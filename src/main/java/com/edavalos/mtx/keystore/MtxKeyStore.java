@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @SpringBootApplication
 @RestController
 public class MtxKeyStore {
+    public static HashMap<String, HashMap<String, String>> mainKeyStore;
 
     public static void main(String[] args) {
+        initMainKeyStore();
         ConfigurableApplicationContext apiServer = SpringApplication.run(MtxKeyStore.class, args);
     }
 
@@ -25,5 +29,14 @@ public class MtxKeyStore {
         return ResponseEntity
                 .status(200)
                 .body("{\"sender\":\"" + name + "\",\"status\":\"alive\"}");
+    }
+
+    private static void initMainKeyStore() {
+        mainKeyStore = new HashMap<>();
+
+        HashMap<String, String> sampleKS = new HashMap<>();
+        sampleKS.put("_SAMPLE_KEY_", "_SAMPLE_VALUE_");
+
+        mainKeyStore.put("_SAMPLE_APP_ID_", sampleKS);
     }
 }
