@@ -28,7 +28,7 @@ public class KeyPostHandler {
                 .body(new ApiResponse<KeyValueInfo>(
                         "/kv/store",
                         200,
-                        "success",
+                        "key successfully stored",
                         kvInfo
                 ).toString());
     }
