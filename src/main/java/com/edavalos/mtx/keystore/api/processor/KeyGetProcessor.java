@@ -5,6 +5,7 @@ import com.edavalos.mtx.keystore.api.model.ValueInfo;
 import java.util.HashMap;
 
 import static com.edavalos.mtx.keystore.MtxKeyStore.mainKeyStore;
+import static com.edavalos.mtx.keystore.MtxKeyStore.mainKeyStoreTimestamps;
 
 public final class KeyGetProcessor {
     private KeyGetProcessor() { }
@@ -19,6 +20,13 @@ public final class KeyGetProcessor {
             return null;
         }
 
-        return new ValueInfo(appId, key, kv.get(key));
+        String lastModifiedTimestamp = null;
+        if (mainKeyStoreTimestamps.containsKey(appId)) {
+            if (mainKeyStoreTimestamps.get(appId).containsKey(key)) {
+                lastModifiedTimestamp = mainKeyStoreTimestamps.get(appId).get(key);
+            }
+        }
+
+        return new ValueInfo(appId, key, kv.get(key), lastModifiedTimestamp);
     }
 }
