@@ -12,6 +12,8 @@ public class SpringConfig {
     private String timezone;
     private String authToken;
 
+    private int storeInterval;
+
     public ZoneOffset getTimezone() {
         ZoneOffset zoneOffset;
         try {
@@ -33,5 +35,13 @@ public class SpringConfig {
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
+    }
+
+    public int getStoreInterval() {
+        return this.storeInterval;
+    }
+
+    public void setStoreInterval(int storeInterval) {
+        this.storeInterval = storeInterval;
     }
 }
