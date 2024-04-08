@@ -14,6 +14,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter:3.2.4")
     implementation("org.springframework.boot:spring-boot-starter-web:3.2.4")
+    implementation("com.google.code.gson:gson:2.10.1")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.2.4")
     testImplementation(platform("org.junit:junit-bom:5.10.1"))

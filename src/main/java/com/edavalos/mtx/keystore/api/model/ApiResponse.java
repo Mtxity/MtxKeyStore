@@ -1,8 +1,10 @@
 package com.edavalos.mtx.keystore.api.model;
 
 import com.edavalos.mtx.keystore.Util;
+import com.google.gson.Gson;
 
 public class ApiResponse<T> {
+    private static final Gson GSON = new Gson();
 
     private final String requestUri;
     private final String response;
@@ -16,5 +18,10 @@ public class ApiResponse<T> {
         this.statusCode = responseCode;
         this.timestamp = Util.getTimestamp();
         this.content = responseBody;
+    }
+
+    @Override
+    public String toString() {
+        return GSON.toJson(this);
     }
 }
