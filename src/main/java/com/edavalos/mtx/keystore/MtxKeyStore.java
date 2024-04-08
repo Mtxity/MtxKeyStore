@@ -1,7 +1,9 @@
 package com.edavalos.mtx.keystore;
 
+import com.edavalos.mtx.keystore.config.SpringConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 
 @SpringBootApplication
+@EnableConfigurationProperties(SpringConfig.class)
 @RestController
 public class MtxKeyStore {
     public static HashMap<String, HashMap<String, String>> mainKeyStore;
