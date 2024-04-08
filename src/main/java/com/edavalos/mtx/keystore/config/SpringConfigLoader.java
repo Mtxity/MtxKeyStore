@@ -26,4 +26,8 @@ public final class SpringConfigLoader {
     public static String getAuthToken() {
         return config.springConfig.getAuthToken();
     }
+
+    public static int getStoreInterval() {
+        return config.springConfig.getStoreInterval();
+    }
 }
