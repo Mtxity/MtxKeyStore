@@ -1,6 +1,7 @@
 package com.edavalos.mtx.keystore;
 
-import java.time.ZoneOffset;
+import com.edavalos.mtx.keystore.config.SpringConfigLoader;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -14,8 +15,7 @@ public final class Util {
      */
     public static String getTimestamp() {
         return ZonedDateTime
-                // @TODO: Add config option to set timezone
-                .now(ZoneOffset.UTC)
+                .now(SpringConfigLoader.getTimezone())
                 .truncatedTo(ChronoUnit.MILLIS)
                 .format(DateTimeFormatter.ISO_DATE_TIME);
     }
