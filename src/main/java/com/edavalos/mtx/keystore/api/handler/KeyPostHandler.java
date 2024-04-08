@@ -1,5 +1,6 @@
 package com.edavalos.mtx.keystore.api.handler;
 
+import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.KeyValueInfo;
 import com.edavalos.mtx.keystore.api.processor.KeyPostProcessor;
@@ -24,10 +25,10 @@ public class KeyPostHandler {
         // @TODO: Add authorization check
         KeyValueInfo kvInfo = KeyPostProcessor.storeValue(appIdParam, keyParam, valueParam);
         return ResponseEntity
-                .status(200)
+                .status(HttpResponse.RESPONSE_200.getHttpStatus())
                 .body(new ApiResponse<KeyValueInfo>(
                         "/kv/store",
-                        200,
+                        HttpResponse.RESPONSE_200,
                         "key successfully stored",
                         kvInfo
                 ).toString());

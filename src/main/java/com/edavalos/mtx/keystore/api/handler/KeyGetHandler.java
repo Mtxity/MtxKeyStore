@@ -1,5 +1,6 @@
 package com.edavalos.mtx.keystore.api.handler;
 
+import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.ValueInfo;
 import com.edavalos.mtx.keystore.api.processor.KeyGetProcessor;
@@ -23,20 +24,20 @@ public class KeyGetHandler {
 
         if (vInfo == null) {
             return ResponseEntity
-                    .status(404)
+                    .status(HttpResponse.RESPONSE_404.getHttpStatus())
                     .body(new ApiResponse<ValueInfo>(
                             "/kv/get",
-                            404,
+                            HttpResponse.RESPONSE_404,
                             "no value found with key: '" + keyParam + "'",
                             null
                     ).toString());
         }
 
         return ResponseEntity
-                .status(200)
+                .status(HttpResponse.RESPONSE_200.getHttpStatus())
                 .body(new ApiResponse<ValueInfo>(
                         "/kv/get",
-                        200,
+                        HttpResponse.RESPONSE_200,
                         "Value successfully retrieved",
                         vInfo
                 ).toString());
