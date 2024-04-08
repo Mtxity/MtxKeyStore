@@ -1,5 +1,6 @@
 package com.edavalos.mtx.keystore;
 
+import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.config.SpringConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -43,10 +44,10 @@ public class MtxKeyStore {
 
         HashMap<String, String> sampleKS = new HashMap<>();
         HashMap<String, String> sampleKSts = new HashMap<>();
-        sampleKS.put("_SAMPLE_KEY_", "_SAMPLE_VALUE_");
-        sampleKSts.put("_SAMPLE_KEY_", Util.getTimestamp());
+        sampleKS.put(ApiConst.SAMPLE_KEY, ApiConst.SAMPLE_VALUE);
+        sampleKSts.put(ApiConst.SAMPLE_KEY, Util.getTimestamp());
 
-        mainKeyStore.put("_SAMPLE_APP_ID_", sampleKS);
-        mainKeyStoreTimestamps.put("_SAMPLE_APP_ID_", sampleKSts);
+        mainKeyStore.put(ApiConst.SAMPLE_APP_ID, sampleKS);
+        mainKeyStoreTimestamps.put(ApiConst.SAMPLE_APP_ID, sampleKSts);
     }
 }
