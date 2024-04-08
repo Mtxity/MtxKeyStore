@@ -1,5 +1,8 @@
 package com.edavalos.mtx.keystore.api.handler;
 
+import com.edavalos.mtx.keystore.api.model.ApiResponse;
+import com.edavalos.mtx.keystore.api.model.KeyValueInfo;
+import com.edavalos.mtx.keystore.api.processor.KeyPostProcessor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +21,15 @@ public class KeyPostHandler {
             @RequestParam(value = "value", defaultValue = "_DEFAULT_PARAM_STR_")
             String valueParam
     ) {
-        return null;
+        // @TODO: Add authorization check
+        KeyValueInfo kvInfo = KeyPostProcessor.storeValue(appIdParam, keyParam, valueParam);
+        return ResponseEntity
+                .status(200)
+                .body(new ApiResponse<KeyValueInfo>(
+                        "/kv/store",
+                        200,
+                        "success",
+                        kvInfo
+                ).toString());
     }
 }
