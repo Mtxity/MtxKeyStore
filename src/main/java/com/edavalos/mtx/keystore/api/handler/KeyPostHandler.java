@@ -6,6 +6,7 @@ import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.KeyValueInfo;
 import com.edavalos.mtx.keystore.api.model.ValueInfo;
 import com.edavalos.mtx.keystore.api.processor.KeyPostProcessor;
+import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +35,17 @@ public class KeyPostHandler {
                             "/kv/store",
                             HttpResponse.RESPONSE_403,
                             "no authentication provided",
+                            null
+                    ).toString());
+        }
+
+        if (!SpringConfigLoader.getAuthToken().equals(authHeader)) {
+            return ResponseEntity
+                    .status(HttpResponse.RESPONSE_403.getHttpStatus())
+                    .body(new ApiResponse<ValueInfo>(
+                            "/kv/store",
+                            HttpResponse.RESPONSE_403,
+                            "Authentication invalid",
                             null
                     ).toString());
         }
