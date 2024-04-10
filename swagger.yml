@@ -3,3 +3,28 @@ info:
   title: Mtx Key-Value Store
   description: Store string data categorized by key
   version: 0.1.0-SNAPSHOT
+
+paths:
+  /kv/get:
+    get:
+      summary: Get info about this server instance
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Key to lookup
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
