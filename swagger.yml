@@ -1,0 +1,138 @@
+openapi: 3.0.3
+info:
+  title: Mtx Key-Value Store
+  description: Store string data categorized by key
+  version: 0.1.0-SNAPSHOT
+
+paths:
+  /kv/get:
+    get:
+      summary: Get a value given its key and associated application ID
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID associated with this k/v pair
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Key to lookup
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /kv/store:
+    post:
+      summary: Given an application ID, store a key/value pair or update a value stored under a key
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID to associate with this k/v pair
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Key to store value under
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: Value to store
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        requestUri:
+          type: string
+          description: URI sent to the server that led you here
+          example: /kv/get?app_id=1248&key=2359
+        response:
+          type: string
+          description: Message from the server in response
+          example: 201 - Created
+        statusCode:
+          type: integer
+          format: int32
+          description: HTTP status code
+          example: 201
+        message:
+          type: string
+          description: Details about how the request was processed
+          example: key successfully stored
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of when this response was generated
+        content:
+          type: object
+          oneOf:
+            - $ref: '#/components/schemas/KeyValueInfo'
+            - $ref: '#/components/schemas/ValueInfo'
+          description: Response body content
+      required:
+        - requestUri
+        - response
+        - statusCode
+        - message
+        - timestamp
+    KeyValueInfo:
+      type: object
+      properties:
+        appId:
+          type: string
+          description: Application ID of which this k/v pair is associated with
+        key:
+          type: string
+          description: The key this value is stored under
+        previousValue:
+          type: string
+          description: The previous value stored under this key, before processing this request
+        newValue:
+          type: string
+          description: The new value stored under this key, after processing this request
+      required:
+        - appId
+        - key
+        - newValue
+    ValueInfo:
+      type: object
+      properties:
+        appId:
+          type: string
+          description: Application ID of which this k/v pair is associated with
+        key:
+          type: string
+          description: The key this value is stored under
+        value:
+          type: string
+          description: The current value stored under this key
+        lastModifiedTimestamp:
+          type: string
+          format: date-time
+          description: Timestamp of when this value was saved under this key
+      required:
+        - appId
+        - key
+        - value
+        - lastModifiedTimestamp
