@@ -57,10 +57,53 @@ components:
           description: Timestamp of when this response was generated
         content:
           type: object
-          description: Response body if this was a GET request
+          oneOf:
+            - $ref: '#/components/schemas/KeyValueInfo'
+            - $ref: '#/components/schemas/ValueInfo'
+          description: Response body content
       required:
         - requestUri
         - response
         - statusCode
         - message
         - timestamp
+    KeyValueInfo:
+      type: object
+      properties:
+        appId:
+          type: string
+          description: Application ID of which this k/v pairing is associated with
+        key:
+          type: string
+          description: The key this value is stored under
+        previousValue:
+          type: string
+          description: The previous value stored under this key, before processing this request
+        newValue:
+          type: string
+          description: The new value stored under this key, after processing this request
+      required:
+        - appId
+        - key
+        - newValue
+    ValueInfo:
+      type: object
+      properties:
+        appId:
+          type: string
+          description: Application ID of which this k/v pairing is associated with
+        key:
+          type: string
+          description: The key this value is stored under
+        value:
+          type: string
+          description: The current value stored under this key
+        lastModifiedTimestamp:
+          type: string
+          format: date-time
+          description: Timestamp of when this value was saved under this key
+      required:
+        - appId
+        - key
+        - value
+        - lastModifiedTimestamp
