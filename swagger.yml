@@ -28,3 +28,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+
+components:
+  schemas:
+    ApiResponse:
+      type: object
+      properties:
+        requestUri:
+          type: string
+          description: URI sent to the server that led you here
+          example: /kv/get?app_id=1248&key=2359
+        response:
+          type: string
+          description: Message from the server in response
+          example: 201 - Created
+        statusCode:
+          type: integer
+          format: int32
+          description: HTTP status code
+          example: 201
+        message:
+          type: string
+          description: Details about how the request was processed
+          example: key successfully stored
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of when this response was generated
+        content:
+          type: object
+          description: Response body if this was a GET request
+      required:
+        - requestUri
+        - response
+        - statusCode
+        - message
+        - timestamp
