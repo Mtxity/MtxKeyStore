@@ -6,5 +6,5 @@ app:
   timezone: UTC
   # Auth token (for use in this app)
   authToken: e35acfe4e0b54d488b687a64914197ad
-  # Frequency to store data to db
+  # Frequency to store data to db (in minutes)
   storeInterval: 5
