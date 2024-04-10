@@ -7,18 +7,47 @@ info:
 paths:
   /kv/get:
     get:
-      summary: Get info about this server instance
+      summary: Get a value given its key and associated application ID
       parameters:
         - name: app_id
           in: query
           required: true
-          description: Application ID
+          description: Application ID associated with this k/v pair
           schema:
             type: string
         - name: key
           in: query
           required: true
           description: Key to lookup
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+  /kv/store:
+    post:
+      summary: Given an application ID, store a key/value pair or update a value stored under a key
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID to associate with this k/v pair
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Key to store value under
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: Value to store
           schema:
             type: string
       responses:
@@ -72,7 +101,7 @@ components:
       properties:
         appId:
           type: string
-          description: Application ID of which this k/v pairing is associated with
+          description: Application ID of which this k/v pair is associated with
         key:
           type: string
           description: The key this value is stored under
@@ -91,7 +120,7 @@ components:
       properties:
         appId:
           type: string
-          description: Application ID of which this k/v pairing is associated with
+          description: Application ID of which this k/v pair is associated with
         key:
           type: string
           description: The key this value is stored under
