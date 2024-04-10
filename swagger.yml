@@ -1,0 +1,5 @@
+openapi: 3.0.3
+info:
+  title: Mtx Key-Value Store
+  description: Store string data categorized by key
+  version: 0.1.0-SNAPSHOT
