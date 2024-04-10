@@ -1,6 +1,7 @@
 package com.edavalos.mtx.keystore.api.handler;
 
 import com.edavalos.mtx.keystore.Util;
+import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.ValueInfo;
@@ -18,14 +19,14 @@ public class KeyGetHandler {
 
     @GetMapping(path = "/kv/get", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getValue(
-            @RequestHeader(value = "Authorization", defaultValue = "_DEFAULT_AUTH_")
+            @RequestHeader(value = "Authorization", defaultValue = ApiConst.DEFAULT_AUTH)
             String authHeader,
-            @RequestParam(value = "app_id", defaultValue = "_DEFAULT_PARAM_STR_")
+            @RequestParam(value = "app_id", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String appIdParam,
-            @RequestParam(value = "key", defaultValue = "_DEFAULT_PARAM_STR_")
+            @RequestParam(value = "key", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String keyParam
     ) {
-        if (Util.isBlank(authHeader)) {
+        if (Util.isBlank(authHeader) || authHeader.equalsIgnoreCase(ApiConst.DEFAULT_AUTH)) {
             return ResponseEntity
                     .status(HttpResponse.RESPONSE_403.getHttpStatus())
                     .body(new ApiResponse<ValueInfo>(
@@ -47,6 +48,7 @@ public class KeyGetHandler {
                     ).toString());
         }
 
+        // @TODO: treat default params as nulls
         ValueInfo vInfo = KeyGetProcessor.getValue(appIdParam, keyParam);
 
         if (vInfo == null) {

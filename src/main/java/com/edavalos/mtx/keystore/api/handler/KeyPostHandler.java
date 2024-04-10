@@ -1,6 +1,7 @@
 package com.edavalos.mtx.keystore.api.handler;
 
 import com.edavalos.mtx.keystore.Util;
+import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.KeyValueInfo;
@@ -19,16 +20,16 @@ public class KeyPostHandler {
 
     @PostMapping(path = "/kv/store", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> storeValue(
-            @RequestHeader(value = "Authorization", defaultValue = "_DEFAULT_AUTH_")
+            @RequestHeader(value = "Authorization", defaultValue = ApiConst.DEFAULT_AUTH)
             String authHeader,
-            @RequestParam(value = "app_id", defaultValue = "_DEFAULT_PARAM_STR_")
+            @RequestParam(value = "app_id", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String appIdParam,
-            @RequestParam(value = "key", defaultValue = "_DEFAULT_PARAM_STR_")
+            @RequestParam(value = "key", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String keyParam,
-            @RequestParam(value = "value", defaultValue = "_DEFAULT_PARAM_STR_")
+            @RequestParam(value = "value", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String valueParam
     ) {
-        if (Util.isBlank(authHeader)) {
+        if (Util.isBlank(authHeader) || authHeader.equalsIgnoreCase(ApiConst.DEFAULT_AUTH)) {
             return ResponseEntity
                     .status(HttpResponse.RESPONSE_403.getHttpStatus())
                     .body(new ApiResponse<ValueInfo>(
@@ -50,6 +51,7 @@ public class KeyPostHandler {
                     ).toString());
         }
 
+        // @TODO: treat default params as nulls
         KeyValueInfo kvInfo = KeyPostProcessor.storeValue(appIdParam, keyParam, valueParam);
         return ResponseEntity
                 .status(HttpResponse.RESPONSE_200.getHttpStatus())
