@@ -1,11 +1,14 @@
 package com.edavalos.mtx.keystore;
 
+import com.edavalos.mtx.keystore.api.ApiConst;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -37,5 +40,44 @@ public class UtilTest {
         assertTrue(Util.isBlank(""));
         assertTrue(Util.isBlank("   "));
         assertFalse(Util.isBlank("valid string"));
+    }
+
+    @Nested
+    class GetMissingParamsTests {
+
+        @Test
+        public void testGetMissingParams_noMissingParams() {
+            Map<String, String> params = Map.of(
+                    "xk", "xv",
+                    "yk", "yv"
+            );
+
+            String[] missing = Util.getMissingParams(params);
+            assertEquals(0, missing.length);
+        }
+
+        @Test
+        public void testGetMissingParams_blankParam() {
+            Map<String, String> params = Map.of(
+                    "xk", " ",
+                    "yk", "yv"
+            );
+
+            String[] missing = Util.getMissingParams(params);
+            assertEquals(1, missing.length);
+            assertEquals("xk", missing[0]);
+        }
+
+        @Test
+        public void testGetMissingParams_defaultParam() {
+            Map<String, String> params = Map.of(
+                    "xk", "xv",
+                    "yk", ApiConst.DEFAULT_PARAM_STR
+            );
+
+            String[] missing = Util.getMissingParams(params);
+            assertEquals(1, missing.length);
+            assertEquals("yk", missing[0]);
+        }
     }
 }
