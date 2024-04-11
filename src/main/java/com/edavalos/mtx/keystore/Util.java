@@ -1,10 +1,14 @@
 package com.edavalos.mtx.keystore;
 
+import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public final class Util {
     private Util() { }
@@ -44,5 +48,21 @@ public final class Util {
         }
 
         return s.isBlank();
+    }
+
+    /**
+     * Returns any parameters that are either null, blank, or default. A parameter is considered to be default when its
+     * value equals {@value com.edavalos.mtx.keystore.api.ApiConst#DEFAULT_PARAM_STR}
+     * @param params Map containing each parameter name, and their provided values
+     * @return A string array with all the parameter names that had corresponding blank or default values
+     */
+    public static String[] getMissingParams(Map<String, String> params) {
+        List<String> missingParams = new ArrayList<>();
+        for (Map.Entry<String, String> param : params.entrySet()) {
+            if (isBlank(param.getValue()) || param.getValue().equals(ApiConst.DEFAULT_PARAM_STR)) {
+                missingParams.add(param.getKey());
+            }
+        }
+        return missingParams.toArray(new String[0]);
     }
 }
