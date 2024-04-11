@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 public class KeyPostHandler {
 
@@ -51,7 +53,22 @@ public class KeyPostHandler {
                     ).toString());
         }
 
-        // @TODO: treat default params as nulls
+        String[] missingParams = Util.getMissingParams(Map.of(
+                "app_id", appIdParam,
+                "key", keyParam,
+                "value", valueParam
+        ));
+        if (missingParams.length > 0) {
+            return ResponseEntity
+                    .status(HttpResponse.RESPONSE_400.getHttpStatus())
+                    .body(new ApiResponse<ValueInfo>(
+                            "/kv/store",
+                            HttpResponse.RESPONSE_400,
+                            "Missing parameters: " + String.join(", ", missingParams),
+                            null
+                    ).toString());
+        }
+
         KeyValueInfo kvInfo = KeyPostProcessor.storeValue(appIdParam, keyParam, valueParam);
         return ResponseEntity
                 .status(HttpResponse.RESPONSE_200.getHttpStatus())
