@@ -8,3 +8,5 @@ app:
   authToken: basic e35acfe4e0b54d488b687a64914197ad
   # Frequency to store data to db (in minutes)
   storeInterval: 5
+  # Should calls to /kv/get-all include lastModifiedTimestamps? (more resource intensive)
+  includeTimestampsInGetAll: true

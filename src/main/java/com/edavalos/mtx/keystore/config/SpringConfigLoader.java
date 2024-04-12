@@ -30,4 +30,8 @@ public final class SpringConfigLoader {
     public static int getStoreInterval() {
         return config.springConfig.getStoreInterval();
     }
+
+    public static boolean getIncludeTimestampsInGetAll() {
+        return config.springConfig.getIncludeTimestampsInGetAll();
+    }
 }

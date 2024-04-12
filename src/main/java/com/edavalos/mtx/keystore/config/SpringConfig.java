@@ -11,8 +11,8 @@ import java.time.ZoneOffset;
 public class SpringConfig {
     private String timezone;
     private String authToken;
-
     private int storeInterval;
+    private boolean includeTimestampsInGetAll;
 
     public ZoneOffset getTimezone() {
         ZoneOffset zoneOffset;
@@ -43,5 +43,13 @@ public class SpringConfig {
 
     public void setStoreInterval(int storeInterval) {
         this.storeInterval = storeInterval;
+    }
+
+    public boolean getIncludeTimestampsInGetAll() {
+        return this.includeTimestampsInGetAll;
+    }
+
+    public void setIncludeTimestampsInGetAll(boolean includeTimestampsInGetAll) {
+        this.includeTimestampsInGetAll = includeTimestampsInGetAll;
     }
 }
