@@ -5,7 +5,7 @@ import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.ValueInfo;
-import com.edavalos.mtx.keystore.api.processor.KeyGetProcessor;
+import com.edavalos.mtx.keystore.api.processor.KeyGetAllProcessor;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +60,7 @@ public class KeyGetAllHandler {
                     ).toString());
         }
 
-        ValueInfo[] vInfo = KeyGetProcessor.getAllValues(appIdParam);
+        ValueInfo[] vInfo = KeyGetAllProcessor.getAllValues(appIdParam);
 
         if (vInfo.length == 0) {
             return ResponseEntity
