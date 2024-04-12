@@ -6,7 +6,7 @@ import com.edavalos.mtx.keystore.api.HttpResponse;
 import com.edavalos.mtx.keystore.api.model.ApiResponse;
 import com.edavalos.mtx.keystore.api.model.KeyValueInfo;
 import com.edavalos.mtx.keystore.api.model.ValueInfo;
-import com.edavalos.mtx.keystore.api.processor.KeyPostProcessor;
+import com.edavalos.mtx.keystore.api.processor.KeyStoreProcessor;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-public class KeyPostHandler {
+public class KeyStoreHandler {
 
     @PostMapping(path = "/kv/store", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> storeValue(
@@ -69,7 +69,7 @@ public class KeyPostHandler {
                     ).toString());
         }
 
-        KeyValueInfo kvInfo = KeyPostProcessor.storeValue(appIdParam, keyParam, valueParam);
+        KeyValueInfo kvInfo = KeyStoreProcessor.storeValue(appIdParam, keyParam, valueParam);
         return ResponseEntity
                 .status(HttpResponse.RESPONSE_200.getHttpStatus())
                 .body(new ApiResponse<KeyValueInfo>(

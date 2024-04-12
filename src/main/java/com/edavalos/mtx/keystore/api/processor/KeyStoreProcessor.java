@@ -8,8 +8,8 @@ import java.util.HashMap;
 import static com.edavalos.mtx.keystore.MtxKeyStore.mainKeyStore;
 import static com.edavalos.mtx.keystore.MtxKeyStore.mainKeyStoreTimestamps;
 
-public final class KeyPostProcessor {
-    private KeyPostProcessor() { }
+public final class KeyStoreProcessor {
+    private KeyStoreProcessor() { }
 
     public static KeyValueInfo storeValue(String appId, String key, String val) {
         if (!mainKeyStore.containsKey(appId)) {
