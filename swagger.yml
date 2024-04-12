@@ -28,6 +28,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /kv/get-all:
+    get:
+      summary: Get all key value pairs saved for this application ID
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID to lookup
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
   /kv/store:
     post:
       summary: Given an application ID, store a key/value pair or update a value stored under a key
