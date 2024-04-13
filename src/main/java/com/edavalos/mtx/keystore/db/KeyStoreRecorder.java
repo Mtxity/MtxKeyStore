@@ -13,7 +13,11 @@ public final class KeyStoreRecorder {
         Statement statement = null;
 
         try {
-            String query = "";
+            String query = "INSERT INTO \"MtxKvStore\".keystore (" +
+                    "   app_id, key, val" +
+                    ") VALUES (" +
+                    "   " + appId + ", " + key + ", " + value +
+                    ");";
             // Ensuring driver class exists / preloading it
             Class.forName("org.postgresql.Driver");
 
