@@ -28,6 +28,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
   /kv/get-all:
     get:
       summary: Get all key value pairs saved for this application ID
@@ -41,6 +47,12 @@ paths:
       responses:
         '200':
           description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
           content:
             application/json:
               schema:
@@ -70,6 +82,12 @@ paths:
       responses:
         '200':
           description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
           content:
             application/json:
               schema:
