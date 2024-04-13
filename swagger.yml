@@ -122,6 +122,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /healthcheck:
+    get:
+      summary: See if this server is on
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Sample client requester name to return as a ping test
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Request successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sender:
+                    type: string
+                  status:
+                    type: string
+                    description: will always be 'alive' as long as this app can respond
+
 
 components:
   schemas:
