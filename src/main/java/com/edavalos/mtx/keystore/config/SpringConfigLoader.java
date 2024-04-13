@@ -6,17 +6,16 @@ import org.springframework.stereotype.Service;
 import java.time.ZoneOffset;
 
 @Service
-public final class SpringConfigLoader {
-    private SpringConfigLoader() { }
+public class SpringConfigLoader {
+    private final SpringConfig springConfig;
 
     @Autowired
-    private SpringConfig springConfig;
+    public SpringConfigLoader(SpringConfig springConfig) {
+        this.springConfig = springConfig;
+    }
+
 
     private static SpringConfigLoader config;
-
-    public static void loadConfig() {
-        config = new SpringConfigLoader();
-    }
 
 
     public static ZoneOffset getTimezone() {
