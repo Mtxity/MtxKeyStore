@@ -22,18 +22,8 @@ public class MtxKeyStore {
     // HashMap< App ID, HashMap< Key, Last Updated Date >>
     public static HashMap<String, HashMap<String, String>> mainKeyStoreTimestamps;
 
-    public static ConfigurableApplicationContext apiServer;
-
-    public final SpringConfigLoader config;
-
-    @Autowired
-    public MtxKeyStore(SpringConfigLoader springConfigLoader) {
-        this.config = springConfigLoader;
-    }
-
     public static void main(String[] args) {
         initMainKeyStore();
-        apiServer = SpringApplication.run(MtxKeyStore.class, args);
     }
 
     @GetMapping(path = "/healthcheck", produces = MediaType.APPLICATION_JSON_VALUE)
