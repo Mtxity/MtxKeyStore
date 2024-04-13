@@ -20,6 +20,7 @@ public class SpringConfig {
             zoneOffset = ZoneOffset.of(this.timezone);
         } catch (DateTimeException dte) {
             System.err.println("Config contains unrecognized value for 'app.timezone': '" + this.timezone + "' (defaulting to UTC)");
+            this.timezone = ZoneOffset.UTC.getId();
             return ZoneOffset.UTC;
         }
         return zoneOffset;
