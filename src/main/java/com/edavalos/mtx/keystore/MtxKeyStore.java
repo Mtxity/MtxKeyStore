@@ -1,6 +1,8 @@
 package com.edavalos.mtx.keystore;
 
 import com.edavalos.mtx.keystore.api.ApiConst;
+import com.edavalos.mtx.keystore.config.SpringConfigLoader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -21,6 +23,13 @@ public class MtxKeyStore {
     public static HashMap<String, HashMap<String, String>> mainKeyStoreTimestamps;
 
     public static ConfigurableApplicationContext apiServer;
+
+    public final SpringConfigLoader config;
+
+    @Autowired
+    public MtxKeyStore(SpringConfigLoader springConfigLoader) {
+        this.config = springConfigLoader;
+    }
 
     public static void main(String[] args) {
         initMainKeyStore();
