@@ -29,3 +29,10 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+flyway {
+    url = "jdbc:postgresql://localhost:5432/mtxkvstore"
+    user = "mtxkvstore"
+    password = "mtxkvstore"
+    baselineOnMigrate = true
+}
