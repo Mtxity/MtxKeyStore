@@ -40,6 +40,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: Key not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
   /kv/get-all:
     get:
       summary: Get all key value pairs saved for this application ID
@@ -65,6 +71,12 @@ paths:
                 $ref: '#/components/schemas/ApiResponse'
         '400':
           description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: Nothing saved for this application ID
           content:
             application/json:
               schema:
