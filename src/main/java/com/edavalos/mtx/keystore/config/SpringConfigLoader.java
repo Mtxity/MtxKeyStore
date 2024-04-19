@@ -43,6 +43,10 @@ public class SpringConfigLoader {
 
     // --- config section: api
 
+    public static boolean getRequireAuthorization() {
+        return config.requireAuthorization;
+    }
+
     public static String getAuthToken() {
         return config.authToken;
     }

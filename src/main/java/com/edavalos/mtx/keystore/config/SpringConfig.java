@@ -9,6 +9,9 @@ public class SpringConfig {
     @Value("${app.timezone}")
     String timezone;
 
+    @Value("${api.requireAuthorization}")
+    boolean requireAuthorization;
+
     @Value("${api.authToken}")
     String authToken;
 
