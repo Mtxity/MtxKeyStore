@@ -1,28 +1,26 @@
 package com.edavalos.mtx.keystore.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Component;
 
 import java.time.DateTimeException;
 import java.time.ZoneOffset;
 
-@Component
+@Configuration
+@PropertySource("classpath:application.yml")
 public class SpringConfigLoader {
-    private static final SpringConfigLoader config = new SpringConfigLoader();
+    @Autowired
+    private static SpringConfig config;
 
-    @Value("${app.timezone}")
-    private String timezone;
-
-    @Value("${api.authToken}")
-    private String authToken;
-
-    @Value("${api.includeTimestampsInGetAll}")
-    private boolean includeTimestampsInGetAll;
-
-    @Value("${db.storeInterval}")
-    private int storeInterval;
-
-    private SpringConfigLoader() { }
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
 
     // --- config section: app
