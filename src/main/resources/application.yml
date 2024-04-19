@@ -4,9 +4,13 @@ server:
 app:
   # In Java ZoneOffset notation (https://docs.oracle.com/javase/8/docs/api/java/time/ZoneOffset.html#of-java.lang.String-)
   timezone: UTC
+
+api:
   # Auth token (must be included in calls to this app)
   authToken: basic e35acfe4e0b54d488b687a64914197ad
-  # Frequency to store data to db (in minutes)
-  storeInterval: 5
   # Should calls to /kv/get-all include lastModifiedTimestamps? (more resource intensive)
   includeTimestampsInGetAll: true
+
+db:
+  # Frequency to store data to db (in minutes)
+  storeInterval: 5
