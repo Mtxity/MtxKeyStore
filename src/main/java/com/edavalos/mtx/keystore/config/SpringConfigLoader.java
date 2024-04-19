@@ -14,7 +14,6 @@ import java.time.ZoneOffset;
 @Configuration
 @PropertySource("classpath:application.yml")
 public class SpringConfigLoader {
-    @Autowired
     private static SpringConfig config;
 
     @Bean
@@ -22,6 +21,10 @@ public class SpringConfigLoader {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
+    @Autowired
+    public SpringConfigLoader(SpringConfig config) {
+        SpringConfigLoader.config = config;
+    }
 
     // --- config section: app
 
