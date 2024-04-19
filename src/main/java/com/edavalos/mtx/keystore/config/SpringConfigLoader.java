@@ -8,18 +8,21 @@ import java.time.ZoneOffset;
 
 @Component
 public class SpringConfigLoader {
+    private static final SpringConfigLoader config = new SpringConfigLoader();
 
     @Value("${app.timezone}")
-    private static String timezone;
+    private String timezone;
 
     @Value("${api.authToken}")
-    private static String authToken;
+    private String authToken;
 
     @Value("${api.includeTimestampsInGetAll}")
-    private static boolean includeTimestampsInGetAll;
+    private boolean includeTimestampsInGetAll;
 
     @Value("${db.storeInterval}")
-    private static int storeInterval;
+    private int storeInterval;
+
+    private SpringConfigLoader() { }
 
 
     // --- config section: app
@@ -27,10 +30,10 @@ public class SpringConfigLoader {
     public static ZoneOffset getTimezone() {
         ZoneOffset zoneOffset;
         try {
-            zoneOffset = ZoneOffset.of(timezone);
+            zoneOffset = ZoneOffset.of(config.timezone);
         } catch (DateTimeException dte) {
-            System.err.println("Config contains unrecognized value for 'app.timezone': '" + timezone + "' (defaulting to UTC)");
-            timezone = ZoneOffset.UTC.getId();
+            System.err.println("Config contains unrecognized value for 'app.timezone': '" + config.timezone + "' (defaulting to UTC)");
+            config.timezone = ZoneOffset.UTC.getId();
             return ZoneOffset.UTC;
         }
         return zoneOffset;
@@ -40,17 +43,17 @@ public class SpringConfigLoader {
     // --- config section: api
 
     public static String getAuthToken() {
-        return authToken;
+        return config.authToken;
     }
 
     public static boolean getIncludeTimestampsInGetAll() {
-        return includeTimestampsInGetAll;
+        return config.includeTimestampsInGetAll;
     }
 
 
     // --- config section: db
 
     public static int getStoreInterval() {
-        return storeInterval;
+        return config.storeInterval;
     }
 }
