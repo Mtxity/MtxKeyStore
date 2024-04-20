@@ -5,7 +5,7 @@ public abstract class QueryBuilder {
     protected final String table;
 
     public QueryBuilder(String tableToQuery) {
-        this.dbName = "MtxKvStore"; // @Todo: get this from a config file
+        this.dbName = "MtxKvStore";
         this.table = tableToQuery;
     }
 }
