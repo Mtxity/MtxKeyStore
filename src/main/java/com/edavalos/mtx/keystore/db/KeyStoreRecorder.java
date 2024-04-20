@@ -34,7 +34,7 @@ public final class KeyStoreRecorder {
 
             System.out.println("KV pair stored in database");
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error establishing connection to the database");
+            System.err.println("Error: " + e);
             throw new RuntimeException(e);
         } finally {
             try {

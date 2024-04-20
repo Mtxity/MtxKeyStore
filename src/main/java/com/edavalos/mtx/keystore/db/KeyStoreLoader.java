@@ -48,7 +48,7 @@ public final class KeyStoreLoader {
 
             System.out.println("Successfully queried and loaded all KV pairs");
         } catch (SQLException | ClassNotFoundException e) {
-            System.err.println("Error establishing connection to the database");
+            System.err.println("Error: " + e);
             throw new RuntimeException(e);
         } finally {
             try {
