@@ -28,26 +28,28 @@ public class KeyGetHandler {
             @RequestParam(value = "key", defaultValue = ApiConst.DEFAULT_PARAM_STR)
             String keyParam
     ) {
-        if (Util.isBlank(authHeader) || authHeader.equalsIgnoreCase(ApiConst.DEFAULT_AUTH)) {
-            return ResponseEntity
-                    .status(HttpResponse.RESPONSE_403.getHttpStatus())
-                    .body(new ApiResponse<ValueInfo>(
-                            "/kv/get",
-                            HttpResponse.RESPONSE_403,
-                            "no authentication provided",
-                            null
-                    ).toString());
-        }
+        if (SpringConfigLoader.getRequireAuthorization()) {
+            if (Util.isBlank(authHeader) || authHeader.equalsIgnoreCase(ApiConst.DEFAULT_AUTH)) {
+                return ResponseEntity
+                        .status(HttpResponse.RESPONSE_403.getHttpStatus())
+                        .body(new ApiResponse<ValueInfo>(
+                                "/kv/get",
+                                HttpResponse.RESPONSE_403,
+                                "no authentication provided",
+                                null
+                        ).toString());
+            }
 
-        if (!SpringConfigLoader.getAuthToken().equals(authHeader)) {
-            return ResponseEntity
-                    .status(HttpResponse.RESPONSE_403.getHttpStatus())
-                    .body(new ApiResponse<ValueInfo>(
-                            "/kv/get",
-                            HttpResponse.RESPONSE_403,
-                            "Authentication invalid",
-                            null
-                    ).toString());
+            if (!SpringConfigLoader.getAuthToken().equals(authHeader)) {
+                return ResponseEntity
+                        .status(HttpResponse.RESPONSE_403.getHttpStatus())
+                        .body(new ApiResponse<ValueInfo>(
+                                "/kv/get",
+                                HttpResponse.RESPONSE_403,
+                                "Authentication invalid",
+                                null
+                        ).toString());
+            }
         }
 
         String[] missingParams = Util.getMissingParams(Map.of(
