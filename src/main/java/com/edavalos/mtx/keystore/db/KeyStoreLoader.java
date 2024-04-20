@@ -1,5 +1,11 @@
 package com.edavalos.mtx.keystore.db;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public final class KeyStoreLoader {
@@ -13,6 +19,49 @@ public final class KeyStoreLoader {
     ) { }
 
     public static List<KvRow> loadKeyValues() {
-        return null;
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet;
+        String query = "SELECT * FROM \"MtxKvStore\".kv;";
+        List<KvRow> results = new ArrayList<>();
+
+        try {
+            // Ensuring driver class exists / preloading it
+            Class.forName("org.postgresql.Driver");
+
+            connection =  DriverManager.getConnection(
+                    "jdbc:postgresql://localhost:5432/mtxkvstore",
+                    "mtxkvstore",
+                    "mtxkvstore"
+            );
+
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                String appId = resultSet.getString("app_id");
+                String key = resultSet.getString("key");
+                String val = resultSet.getString("val");
+                String timestamp = resultSet.getString("lastSetTimestamp");
+                results.add(new KvRow(appId, key, val, timestamp));
+            }
+
+            System.out.println("Successfully queried and loaded all KV pairs");
+        } catch (SQLException | ClassNotFoundException e) {
+            System.err.println("Error establishing connection to the database");
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error closing database connection: " + e);
+            }
+        }
+        return results;
     }
 }
