@@ -3,23 +3,14 @@ package com.edavalos.mtx.keystore.db;
 import com.edavalos.mtx.keystore.Util;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public final class KeyStoreLoader {
     private KeyStoreLoader() { }
-
-    record KvRow(
-            String appId,
-            String key,
-            String val,
-            String timestamp
-    ) { }
 
     public static List<KvRow> loadKeyValues() {
         Connection connection = null;
