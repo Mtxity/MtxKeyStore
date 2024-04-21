@@ -3,6 +3,9 @@ package com.edavalos.mtx.keystore;
 import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -102,5 +105,22 @@ public final class Util {
      */
     public static String getConcat(String s1, String s2) {
         return getConcat(" ", s1, s2);
+    }
+
+    public static Connection connectToDb(String driverClassname, String url, String user, String password) {
+        try {
+            // Ensuring driver class exists / preloading it
+            Class.forName(driverClassname);
+        } catch (ClassNotFoundException e) {
+            System.err.println("Error loading database driver: " + e);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            return DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
+            System.err.println("Error establishing connection to the database: " + e);
+            throw new RuntimeException(e);
+        }
     }
 }
