@@ -65,4 +65,8 @@ public final class Util {
         }
         return missingParams.toArray(new String[0]);
     }
+
+    public static String getConcat(String delimiter, String s1, String s2) {
+        return s1 + delimiter + s2;
+    }
 }
