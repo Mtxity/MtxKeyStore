@@ -4,6 +4,7 @@ import com.edavalos.mtx.keystore.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
@@ -13,7 +14,7 @@ public final class KeyStoreRecorder {
 
     public static void recordKeyValue(String appId, String key, String value, String timestamp) {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         String query = "INSERT INTO \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + " (" +
                 "   app_id, key, val, lastSetTimestamp" +
                 ") VALUES (" +
@@ -28,8 +29,8 @@ public final class KeyStoreRecorder {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
+            statement = connection.prepareStatement(query);
+            statement.executeUpdate();
             connection.commit();
 
             System.out.println("KV pair stored in database");

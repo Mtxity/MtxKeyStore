@@ -4,6 +4,7 @@ import com.edavalos.mtx.keystore.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +23,7 @@ public final class KeyStoreLoader {
 
     public static List<KvRow> loadKeyValues() {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet resultSet;
         String query = "SELECT * FROM \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + ";";
         List<KvRow> results = new ArrayList<>();
@@ -35,8 +36,8 @@ public final class KeyStoreLoader {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
                 String appId = resultSet.getString("app_id");
