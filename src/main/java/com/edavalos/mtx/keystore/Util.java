@@ -80,4 +80,8 @@ public final class Util {
         }
         return sb.append(strings[strings.length - 1]).toString();
     }
+
+    public static String getConcat(String s1, String s2) {
+        return getConcat(" ", s1, s2);
+    }
 }
