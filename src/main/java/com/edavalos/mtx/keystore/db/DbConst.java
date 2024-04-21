@@ -10,4 +10,7 @@ public final class DbConst {
     static final String POSTGRES_DRIVER_CLASSNAME = "org.postgresql.Driver";
 
     static final String POSTGRES_URL = "jdbc:postgresql://localhost:5432/";
+    static final String POSTGRES_DB_NAME = "mtxkvstore";
+    static final String POSTGRES_DB_USER = "mtxkvstore";
+    static final String POSTGRES_DB_PASS = "mtxkvstore";
 }

@@ -23,9 +23,9 @@ public final class KeyStoreRecorder {
             Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
 
             connection =  DriverManager.getConnection(
-                    DbConst.POSTGRES_URL + "mtxkvstore",
-                    "mtxkvstore",
-                    "mtxkvstore"
+                    DbConst.POSTGRES_URL + DbConst.POSTGRES_DB_NAME,
+                    DbConst.POSTGRES_DB_USER,
+                    DbConst.POSTGRES_DB_PASS
             );
 
             statement = connection.createStatement();
