@@ -69,4 +69,15 @@ public final class Util {
     public static String getConcat(String delimiter, String s1, String s2) {
         return s1 + delimiter + s2;
     }
+
+    public static String getConcat(String delimiter, String... strings) {
+        if (strings.length == 2) {
+            return getConcat(delimiter, strings[0], strings[1]);
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < strings.length - 1; i++) {
+            sb.append(strings[i]).append(delimiter);
+        }
+        return sb.append(strings[strings.length - 1]).toString();
+    }
 }
