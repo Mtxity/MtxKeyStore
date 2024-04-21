@@ -1,5 +1,7 @@
 package com.edavalos.mtx.keystore.db;
 
+import com.edavalos.mtx.keystore.Util;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,10 +21,8 @@ public final class KeyStoreRecorder {
                 ");";
 
         try {
-            // Ensuring driver class exists / preloading it
-            Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
-
-            connection =  DriverManager.getConnection(
+            connection = Util.connectToDb(
+                    DbConst.POSTGRES_DRIVER_CLASSNAME,
                     DbConst.POSTGRES_URL + DbConst.POSTGRES_DB_NAME,
                     DbConst.POSTGRES_DB_USER,
                     DbConst.POSTGRES_DB_PASS
@@ -33,7 +33,7 @@ public final class KeyStoreRecorder {
             connection.commit();
 
             System.out.println("KV pair stored in database");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
             throw new RuntimeException(e);
         } finally {

@@ -1,5 +1,7 @@
 package com.edavalos.mtx.keystore.db;
 
+import com.edavalos.mtx.keystore.Util;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -26,11 +28,8 @@ public final class KeyStoreLoader {
         List<KvRow> results = new ArrayList<>();
 
         try {
-            // @TODO: Move this to util class
-            // Ensuring driver class exists / preloading it
-            Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
-
-            connection =  DriverManager.getConnection(
+            connection = Util.connectToDb(
+                    DbConst.POSTGRES_DRIVER_CLASSNAME,
                     DbConst.POSTGRES_URL + DbConst.POSTGRES_DB_NAME,
                     DbConst.POSTGRES_DB_USER,
                     DbConst.POSTGRES_DB_PASS
@@ -48,7 +47,7 @@ public final class KeyStoreLoader {
             }
 
             System.out.println("Successfully queried and loaded all KV pairs");
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             System.err.println("Error: " + e);
             throw new RuntimeException(e);
         } finally {
