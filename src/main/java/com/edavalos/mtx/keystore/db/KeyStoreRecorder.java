@@ -20,7 +20,7 @@ public final class KeyStoreRecorder {
 
         try {
             // Ensuring driver class exists / preloading it
-            Class.forName("org.postgresql.Driver");
+            Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
 
             connection =  DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/mtxkvstore",

@@ -28,7 +28,7 @@ public final class KeyStoreLoader {
         try {
             // @TODO: Move this to util class
             // Ensuring driver class exists / preloading it
-            Class.forName("org.postgresql.Driver");
+            Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
 
             connection =  DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/mtxkvstore", // @TODO: Add const for these
