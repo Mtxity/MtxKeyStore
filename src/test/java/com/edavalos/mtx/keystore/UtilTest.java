@@ -80,4 +80,29 @@ public class UtilTest {
             assertEquals("yk", missing[0]);
         }
     }
+
+    @Nested
+    class GetConcatTests {
+
+        @Test
+        public void testGetConcat_twoArgs() {
+            String expected = "s1+s2";
+            String actual = Util.getConcat("+", "s1", "s2");
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void testGetConcat_multipleArgs() {
+            String expected = "s1+s2+s3+s4+s5";
+            String actual = Util.getConcat("+", "s1", "s2", "s3", "s4", "s5");
+            assertEquals(expected, actual);
+        }
+
+        @Test
+        public void testGetConcat_defaultDelim() {
+            String expected = "s1 s2";
+            String actual = Util.getConcat("s1", "s2");
+            assertEquals(expected, actual);
+        }
+    }
 }
