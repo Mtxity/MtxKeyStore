@@ -48,7 +48,7 @@ public final class KeyStoreLoader {
 
             System.out.println("Successfully queried and loaded all KV pairs");
         } catch (SQLException e) {
-            System.err.println("Error: " + e);
+            System.err.println("Failed to run sql statement: " + e);
             throw new RuntimeException(e);
         } finally {
             try {

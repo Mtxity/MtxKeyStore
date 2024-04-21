@@ -34,7 +34,7 @@ public final class KeyStoreRecorder {
 
             System.out.println("KV pair stored in database");
         } catch (SQLException e) {
-            System.err.println("Error: " + e);
+            System.err.println("Failed to run sql query: " + e);
             throw new RuntimeException(e);
         } finally {
             try {
