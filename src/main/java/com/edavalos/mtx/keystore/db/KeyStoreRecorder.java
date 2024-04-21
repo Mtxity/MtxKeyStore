@@ -23,7 +23,7 @@ public final class KeyStoreRecorder {
             Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
 
             connection =  DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/mtxkvstore",
+                    DbConst.POSTGRES_URL + "mtxkvstore",
                     "mtxkvstore",
                     "mtxkvstore"
             );

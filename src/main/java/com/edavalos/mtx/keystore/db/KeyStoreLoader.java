@@ -31,7 +31,7 @@ public final class KeyStoreLoader {
             Class.forName(DbConst.POSTGRES_DRIVER_CLASSNAME);
 
             connection =  DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/mtxkvstore", // @TODO: Add const for these
+                    DbConst.POSTGRES_URL + "mtxkvstore",
                     "mtxkvstore",
                     "mtxkvstore"
             );

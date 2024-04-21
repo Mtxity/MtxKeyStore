@@ -8,4 +8,6 @@ public final class DbConst {
     static final String TABLE_APP_NAME = "app";
 
     static final String POSTGRES_DRIVER_CLASSNAME = "org.postgresql.Driver";
+
+    static final String POSTGRES_URL = "jdbc:postgresql://localhost:5432/";
 }
