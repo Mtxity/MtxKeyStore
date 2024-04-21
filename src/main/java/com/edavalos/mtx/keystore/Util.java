@@ -107,6 +107,14 @@ public final class Util {
         return getConcat(" ", s1, s2);
     }
 
+    /**
+     * Retrieves a connection to a database
+     * @param driverClassname full classname of the driver being used to connect (ex org.postgresql.Driver)
+     * @param url db url with db name included
+     * @param user db username
+     * @param password db password
+     * @return Connection object associated with this db connection instance
+     */
     public static Connection connectToDb(String driverClassname, String url, String user, String password) {
         try {
             // Ensuring driver class exists / preloading it
