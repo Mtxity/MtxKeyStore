@@ -12,7 +12,7 @@ public final class KeyStoreRecorder {
     public static void recordKeyValue(String appId, String key, String value, String timestamp) {
         Connection connection = null;
         Statement statement = null;
-        String query = "INSERT INTO \"MtxKvStore\".kv (" +
+        String query = "INSERT INTO \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + " (" +
                 "   app_id, key, val, lastSetTimestamp" +
                 ") VALUES (" +
                 "   " + appId + ", " + key + ", " + value + ", " + timestamp +

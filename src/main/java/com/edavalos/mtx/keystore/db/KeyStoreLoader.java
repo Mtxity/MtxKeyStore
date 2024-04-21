@@ -22,15 +22,16 @@ public final class KeyStoreLoader {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet;
-        String query = "SELECT * FROM \"MtxKvStore\".kv;";
+        String query = "SELECT * FROM \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + ";";
         List<KvRow> results = new ArrayList<>();
 
         try {
+            // @TODO: Move this to util class
             // Ensuring driver class exists / preloading it
             Class.forName("org.postgresql.Driver");
 
             connection =  DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/mtxkvstore",
+                    "jdbc:postgresql://localhost:5432/mtxkvstore", // @TODO: Add const for these
                     "mtxkvstore",
                     "mtxkvstore"
             );
