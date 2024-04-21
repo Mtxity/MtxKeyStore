@@ -66,10 +66,23 @@ public final class Util {
         return missingParams.toArray(new String[0]);
     }
 
+    /**
+     * Combines two strings with given delimiter
+     * @param delimiter string to separate s1 and s2
+     * @param s1 Left string
+     * @param s2 Right string
+     * @return combined strings: s1 + delimiter + s2
+     */
     public static String getConcat(String delimiter, String s1, String s2) {
         return s1 + delimiter + s2;
     }
 
+    /**
+     * Combines multiple strings with given delimiter
+     * @param delimiter string to separate other strings
+     * @param strings list of strings to combine into one
+     * @return all strings joined separated by delimiter
+     */
     public static String getConcat(String delimiter, String... strings) {
         if (strings.length == 2) {
             return getConcat(delimiter, strings[0], strings[1]);
@@ -81,6 +94,12 @@ public final class Util {
         return sb.append(strings[strings.length - 1]).toString();
     }
 
+    /**
+     * Combines two strings with a space as delimiter
+     * @param s1 Left string
+     * @param s2 Right string
+     * @return combined strings: s1 + " " + s2
+     */
     public static String getConcat(String s1, String s2) {
         return getConcat(" ", s1, s2);
     }
