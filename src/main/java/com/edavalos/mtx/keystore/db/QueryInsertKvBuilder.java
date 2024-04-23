@@ -28,7 +28,6 @@ public class QueryInsertKvBuilder extends QueryBuilder {
         this(connection, new KvRow(appId, key, value, timestamp));
     }
 
-    // @TODO: Add unit tests for this
     protected String getQuery() {
         if (this.rows == null || this.rows.isEmpty()) {
             return "";
