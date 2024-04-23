@@ -16,7 +16,7 @@ public final class KeyStoreLoader {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet;
-        String query = "SELECT * FROM \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + ";";
+        String query = "SELECT * FROM \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_KV_NAME + ";";
         List<KvRow> results = new ArrayList<>();
 
         try {

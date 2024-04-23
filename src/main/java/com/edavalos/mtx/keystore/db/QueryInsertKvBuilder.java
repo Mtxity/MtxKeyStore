@@ -11,12 +11,12 @@ public class QueryInsertKvBuilder extends QueryBuilder {
     private final List<KvRow> rows;
 
     public QueryInsertKvBuilder(Connection connection, List<KvRow> rows) {
-        super(connection, DbConst.TABLE_APP_NAME);
+        super(connection, DbConst.TABLE_KV_NAME);
         this.rows = rows;
     }
 
     public QueryInsertKvBuilder(Connection connection, KvRow row) {
-        super(connection, DbConst.TABLE_APP_NAME);
+        super(connection, DbConst.TABLE_KV_NAME);
         this.rows = List.of(row);
     }
 
