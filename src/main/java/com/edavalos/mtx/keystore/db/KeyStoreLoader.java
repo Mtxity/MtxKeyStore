@@ -16,7 +16,6 @@ public final class KeyStoreLoader {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet;
-        String query = "SELECT * FROM \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_KV_NAME + ";";
         List<KvRow> results = new ArrayList<>();
 
         try {
@@ -27,7 +26,8 @@ public final class KeyStoreLoader {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            statement = connection.prepareStatement(query);
+            QuerySelectKvBuilder query = new QuerySelectKvBuilder(connection);
+            statement = query.getPreparedStatement();
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
