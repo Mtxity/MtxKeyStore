@@ -30,6 +30,10 @@ public class QueryInsertKvBuilder extends QueryBuilder {
 
     // @TODO: Add unit tests for this
     protected String getQuery() {
+        if (this.rows == null || this.rows.isEmpty()) {
+            return "";
+        }
+
         String[] values = new String[this.rows.size()];
         int i = 0;
         for (KvRow row : this.rows) {
