@@ -26,7 +26,7 @@ public final class KeyStoreLoader {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            QuerySelectKvBuilder query = new QuerySelectKvBuilder(connection);
+            QueryBuilder query = new QuerySelectKvBuilder(connection);
             statement = query.getPreparedStatement();
             resultSet = statement.executeQuery();
 

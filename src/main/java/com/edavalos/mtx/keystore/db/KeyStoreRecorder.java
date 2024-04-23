@@ -24,7 +24,7 @@ public final class KeyStoreRecorder {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            QueryInsertKvBuilder query = new QueryInsertKvBuilder(
+            QueryBuilder query = new QueryInsertKvBuilder(
                     connection,
                     appId,
                     key,

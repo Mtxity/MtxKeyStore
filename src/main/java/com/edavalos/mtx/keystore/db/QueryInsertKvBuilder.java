@@ -3,8 +3,6 @@ package com.edavalos.mtx.keystore.db;
 import com.edavalos.mtx.keystore.Util;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 public class QueryInsertKvBuilder extends QueryBuilder {
@@ -28,6 +26,7 @@ public class QueryInsertKvBuilder extends QueryBuilder {
         this(connection, new KvRow(appId, key, value, timestamp));
     }
 
+    @Override
     protected String getQuery() {
         if (this.rows == null || this.rows.isEmpty()) {
             return "";
@@ -43,14 +42,5 @@ public class QueryInsertKvBuilder extends QueryBuilder {
                 "   app_id, key, val, lastSetTimestamp " +
                 ") VALUES " +
                 Util.getConcat(", ", values) + ";";
-    }
-
-    public PreparedStatement getPreparedStatement() {
-        try {
-            return super.connection.prepareStatement(this.getQuery());
-        } catch (SQLException e) {
-            System.err.println("Failed to create sql query: " + e);
-            throw new RuntimeException(e);
-        }
     }
 }
