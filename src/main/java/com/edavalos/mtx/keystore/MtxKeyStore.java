@@ -1,7 +1,9 @@
 package com.edavalos.mtx.keystore;
 
 import com.edavalos.mtx.keystore.api.ApiConst;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,12 +15,16 @@ import java.util.HashMap;
 @SpringBootApplication
 @RestController
 public class MtxKeyStore {
+    public static ConfigurableApplicationContext apiServer;
+
     // HashMap< App ID, HashMap< Key, Value >>
     public static HashMap<String, HashMap<String, String>> mainKeyStore;
     // HashMap< App ID, HashMap< Key, Last Updated Date >>
     public static HashMap<String, HashMap<String, String>> mainKeyStoreTimestamps;
 
     public static void main(String[] args) {
+        apiServer = SpringApplication.run(MtxKeyStore.class, args);
+
         initMainKeyStore();
     }
 
