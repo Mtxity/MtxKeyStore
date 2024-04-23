@@ -15,11 +15,6 @@ public final class KeyStoreRecorder {
     public static void recordKeyValue(String appId, String key, String value, String timestamp) {
         Connection connection = null;
         PreparedStatement statement = null;
-        String query = "INSERT INTO \"" + DbConst.SCHEMA_NAME + "\"." + DbConst.TABLE_APP_NAME + " (" +
-                "   app_id, key, val, lastSetTimestamp" +
-                ") VALUES (" +
-                "   " + appId + ", " + key + ", " + value + ", " + timestamp +
-                ");";
 
         try {
             connection = Util.connectToDb(
@@ -29,7 +24,14 @@ public final class KeyStoreRecorder {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            statement = connection.prepareStatement(query);
+            QueryInsertKvBuilder query = new QueryInsertKvBuilder(
+                    connection,
+                    appId,
+                    key,
+                    value,
+                    timestamp
+            );
+            statement = query.getPreparedStatement();
             statement.executeUpdate();
             connection.commit();
 

@@ -28,6 +28,7 @@ public class QueryInsertKvBuilder extends QueryBuilder {
         this(connection, new KvRow(appId, key, value, timestamp));
     }
 
+    // @TODO: Add unit tests for this
     protected String getQuery() {
         String[] values = new String[this.rows.size()];
         int i = 0;
@@ -39,5 +40,14 @@ public class QueryInsertKvBuilder extends QueryBuilder {
                 "   app_id, key, val, lastSetTimestamp " +
                 ") VALUES " +
                 Util.getConcat(", ", values) + ";";
+    }
+
+    public PreparedStatement getPreparedStatement() {
+        try {
+            return super.connection.prepareStatement(this.getQuery());
+        } catch (SQLException e) {
+            System.err.println("Failed to create sql query: " + e);
+            throw new RuntimeException(e);
+        }
     }
 }
