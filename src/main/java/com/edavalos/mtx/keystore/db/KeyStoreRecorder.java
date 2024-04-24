@@ -12,7 +12,7 @@ import java.util.Arrays;
 public final class KeyStoreRecorder {
     private KeyStoreRecorder() { }
 
-    public static void recordKeyValue(String appId, String key, String value, String timestamp) {
+    public static void recordKeyValue(KvRow kvRow) {
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -24,13 +24,7 @@ public final class KeyStoreRecorder {
                     DbConst.POSTGRES_DB_PASS
             );
 
-            QueryBuilder query = new QueryInsertKvBuilder(
-                    connection,
-                    appId,
-                    key,
-                    value,
-                    timestamp
-            );
+            QueryBuilder query = new QueryInsertKvBuilder(connection, kvRow);
             statement = query.getPreparedStatement();
             statement.executeUpdate();
             connection.commit();
