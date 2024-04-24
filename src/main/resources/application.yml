@@ -3,7 +3,8 @@ server:
 
 app:
   # In Java ZoneOffset notation (https://docs.oracle.com/javase/8/docs/api/java/time/ZoneOffset.html#of-java.lang.String-)
-  timezone: UTC
+  # 'Z' is code for UTC
+  timezone: Z
 
 api:
   # Should an authorization token be required?
