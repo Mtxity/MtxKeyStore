@@ -21,5 +21,8 @@ public class SpringConfig {
     @Value("${db.storeInterval}")
     int storeInterval;
 
+    @Value("${db.insertAllAtOnce}")
+    boolean insertAllAtOnce;
+
     SpringConfig() { }
 }

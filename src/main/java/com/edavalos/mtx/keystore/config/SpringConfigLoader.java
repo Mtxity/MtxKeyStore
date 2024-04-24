@@ -24,6 +24,7 @@ public class SpringConfigLoader {
         SpringConfigLoader.config = config;
     }
 
+
     // --- config section: app
 
     public static ZoneOffset getTimezone() {
@@ -58,5 +59,9 @@ public class SpringConfigLoader {
 
     public static int getStoreInterval() {
         return config.storeInterval;
+    }
+
+    public static boolean getInsertAllAtOnce() {
+        return config.insertAllAtOnce;
     }
 }
