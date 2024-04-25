@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @SpringBootApplication
 @RestController
@@ -120,5 +122,18 @@ public class MtxKeyStore {
                 System.err.println("Error halting for save to db on program exit: " + e);
             }
         }));
+
+        int intervalInMillis = 1000 * 60 * SpringConfigLoader.getStoreInterval();
+        new Timer("Save KV pairs to DB Timer").scheduleAtFixedRate(
+                new TimerTask() {
+                    @Override
+                    public void run() {
+                        System.out.println("Saving KV pairs...");
+                        saveKvsToDb();
+                    }
+                },
+                intervalInMillis,
+                intervalInMillis
+        );
     }
 }
