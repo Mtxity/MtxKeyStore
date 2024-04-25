@@ -41,6 +41,10 @@ public class QueryInsertKvBuilder extends QueryBuilder {
         return "INSERT INTO \"" + super.dbName + "\"." + super.table + " (" +
                 "   app_id, key, val, lastSetTimestamp " +
                 ") VALUES " +
-                Util.getConcat(", ", values) + ";";
+                Util.getConcat(", ", values) +
+                " ON CONFLICT (app_id, key)" +
+                " DO UPDATE SET" +
+                "   val = EXCLUDED.val," +
+                "   lastSetTimestamp = EXCLUDED.lastSetTimestamp;";
     }
 }
