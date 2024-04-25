@@ -1,6 +1,9 @@
 package com.edavalos.mtx.keystore;
 
 import com.edavalos.mtx.keystore.api.ApiConst;
+import com.edavalos.mtx.keystore.config.SpringConfigLoader;
+import com.edavalos.mtx.keystore.db.KeyStoreLoader;
+import com.edavalos.mtx.keystore.db.KvRow;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,6 +29,7 @@ public class MtxKeyStore {
         apiServer = SpringApplication.run(MtxKeyStore.class, args);
 
         initMainKeyStore();
+        loadKvsFromDb();
     }
 
     @GetMapping(path = "/healthcheck", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,5 +53,25 @@ public class MtxKeyStore {
 
         mainKeyStore.put(ApiConst.SAMPLE_APP_ID, sampleKS);
         mainKeyStoreTimestamps.put(ApiConst.SAMPLE_APP_ID, sampleKSts);
+    }
+
+    private static void loadKvsFromDb() {
+        if (!SpringConfigLoader.getUseDb()) {
+            return;
+        }
+
+        for (KvRow kvRow : KeyStoreLoader.loadKeyValues()) {
+            String appId = kvRow.appId();
+            if (!mainKeyStore.containsKey(appId)) {
+                mainKeyStore.put(appId, new HashMap<>());
+            }
+            if (!mainKeyStoreTimestamps.containsKey(appId)) {
+                mainKeyStoreTimestamps.put(appId, new HashMap<>());
+            }
+
+            mainKeyStore.get(appId).put(kvRow.key(), kvRow.val());
+            mainKeyStoreTimestamps.get(appId).put(kvRow.key(), kvRow.timestamp());
+        }
+        System.out.println("KV pairs have been loaded from database");
     }
 }
