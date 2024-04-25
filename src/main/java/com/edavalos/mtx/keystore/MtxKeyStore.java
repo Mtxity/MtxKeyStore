@@ -3,6 +3,7 @@ package com.edavalos.mtx.keystore;
 import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
 import com.edavalos.mtx.keystore.db.KeyStoreLoader;
+import com.edavalos.mtx.keystore.db.KeyStoreRecorder;
 import com.edavalos.mtx.keystore.db.KvRow;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @RestController
@@ -30,6 +34,7 @@ public class MtxKeyStore {
 
         initMainKeyStore();
         loadKvsFromDb();
+        scheduleSaveToDbTasks();
     }
 
     @GetMapping(path = "/healthcheck", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -73,5 +78,47 @@ public class MtxKeyStore {
             mainKeyStoreTimestamps.get(appId).put(kvRow.key(), kvRow.timestamp());
         }
         System.out.println("KV pairs have been loaded from database");
+    }
+
+    private static void saveKvsToDb() {
+        if (!SpringConfigLoader.getUseDb()) {
+            return;
+        }
+
+        List<KvRow> kvRows = new ArrayList<>();
+        for (String appId : mainKeyStore.keySet()) {
+            if (appId.equals(ApiConst.SAMPLE_APP_ID)) {
+                continue;
+            }
+
+            HashMap<String, String> keyVals = mainKeyStore.get(appId);
+            HashMap<String, String> keyTimestamps = mainKeyStoreTimestamps.get(appId);
+            assert keyVals.size() == keyTimestamps.size();
+
+            for (Map.Entry<String, String> keyVal : keyVals.entrySet()) {
+                kvRows.add(new KvRow(
+                        appId,
+                        keyVal.getKey(),
+                        keyVal.getValue(),
+                        keyTimestamps.get(keyVal.getKey())
+                ));
+            }
+        }
+        KeyStoreRecorder.recordKeyValue(kvRows);
+        System.out.println("KV pairs have been saved to database");
+    }
+
+    private static void scheduleSaveToDbTasks() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                System.out.println("Saving KV pairs...");
+                Thread.sleep(100);
+                saveKvsToDb();
+                System.out.println("Shutting down...");
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.err.println("Error halting for save to db on program exit: " + e);
+            }
+        }));
     }
 }
