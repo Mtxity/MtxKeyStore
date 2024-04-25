@@ -18,6 +18,9 @@ public class SpringConfig {
     @Value("${api.includeTimestampsInGetAll}")
     boolean includeTimestampsInGetAll;
 
+    @Value("${db.useDb}")
+    boolean useDb;
+
     @Value("${db.storeInterval}")
     int storeInterval;
 

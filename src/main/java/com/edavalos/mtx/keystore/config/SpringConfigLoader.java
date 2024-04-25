@@ -57,6 +57,10 @@ public class SpringConfigLoader {
 
     // --- config section: db
 
+    public static boolean getUseDb() {
+        return config.useDb;
+    }
+
     public static int getStoreInterval() {
         return config.storeInterval;
     }
