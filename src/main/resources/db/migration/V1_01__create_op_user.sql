@@ -1,2 +1,2 @@
-CREATE SCHEMA "MtxKvStore";
+CREATE SCHEMA IF NOT EXISTS "MtxKvStore";
 ALTER SCHEMA "MtxKvStore" OWNER TO "mtxkvstore";
