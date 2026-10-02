@@ -22,3 +22,13 @@ db:
   # Run all insert statements at once? True means only one SQL statement needs to be run, but if it fails then all values
   # will fail to insert. False means many SQL statements need to be run but if any errors only that one will fail.
   insertAllAtOnce: true
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mtxkvstore
+    username: mtxkvstore
+    password: mtxkvstore
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    default-schema: MtxKvStore
