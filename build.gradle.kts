@@ -17,6 +17,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-flyway")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.postgresql:postgresql")
     implementation("org.flywaydb:flyway-core")

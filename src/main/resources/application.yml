@@ -23,7 +23,15 @@ db:
   # will fail to insert. False means many SQL statements need to be run but if any errors only that one will fail.
   insertAllAtOnce: true
 
+nosql:
+  # Should key-value pairs be backed up in a Valkey database?
+  useNosql: false
+
 spring:
+  data:
+    redis:
+      # Valkey speaks the Redis protocol; use redis:// or rediss:// for TLS.
+      url: redis://localhost:6379
   datasource:
     url: jdbc:postgresql://localhost:5432/mtxkvstore
     username: mtxkvstore
