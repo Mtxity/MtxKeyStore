@@ -60,6 +60,7 @@ public final class KeyStoreRecorder {
                     DbConst.POSTGRES_DB_USER,
                     DbConst.POSTGRES_DB_PASS
             );
+            connection.setAutoCommit(false);
 
             if (SpringConfigLoader.getInsertAllAtOnce()) {
                 QueryBuilder query = new QueryInsertKvBuilder(connection, kvRows);
@@ -105,6 +106,7 @@ public final class KeyStoreRecorder {
                     statement.close();
                 }
                 if (connection != null) {
+                    connection.setAutoCommit(true);
                     connection.close();
                 }
             } catch (SQLException e) {
