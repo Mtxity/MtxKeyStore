@@ -27,5 +27,8 @@ public class SpringConfig {
     @Value("${db.insertAllAtOnce}")
     boolean insertAllAtOnce;
 
+    @Value("${nosql.useNosql}")
+    boolean useNosql;
+
     SpringConfig() { }
 }

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.DateTimeException;
 import java.time.ZoneOffset;
@@ -13,6 +14,7 @@ import java.time.ZoneOffset;
 @PropertySource("classpath:application.yml")
 public class SpringConfigLoader {
     private static SpringConfig config;
+    private static StringRedisTemplate redisTemplate;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
@@ -20,8 +22,9 @@ public class SpringConfigLoader {
     }
 
     @Autowired
-    public SpringConfigLoader(SpringConfig config) {
+    public SpringConfigLoader(SpringConfig config, StringRedisTemplate redisTemplate) {
         SpringConfigLoader.config = config;
+        SpringConfigLoader.redisTemplate = redisTemplate;
     }
 
 
@@ -67,5 +70,16 @@ public class SpringConfigLoader {
 
     public static boolean getInsertAllAtOnce() {
         return config.insertAllAtOnce;
+    }
+
+
+    // --- config section: nosql
+
+    public static boolean getUseNosql() {
+        return config.useNosql;
+    }
+
+    public static StringRedisTemplate getRedisTemplate() {
+        return redisTemplate;
     }
 }

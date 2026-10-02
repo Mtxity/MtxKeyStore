@@ -2,9 +2,6 @@ package com.edavalos.mtx.keystore;
 
 import com.edavalos.mtx.keystore.api.ApiConst;
 import com.edavalos.mtx.keystore.config.SpringConfigLoader;
-import com.edavalos.mtx.keystore.db.KeyStoreLoader;
-import com.edavalos.mtx.keystore.db.KeyStoreRecorder;
-import com.edavalos.mtx.keystore.db.KvRow;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -35,7 +32,7 @@ public class MtxKeyStore {
         apiServer = SpringApplication.run(MtxKeyStore.class, args);
 
         initMainKeyStore();
-        loadKvsFromDb();
+        loadKvsFromStorage();
         scheduleSaveToDbTasks();
     }
 
@@ -62,13 +59,36 @@ public class MtxKeyStore {
         mainKeyStoreTimestamps.put(ApiConst.SAMPLE_APP_ID, sampleKSts);
     }
 
-    private static void loadKvsFromDb() {
-        if (!SpringConfigLoader.getUseDb()) {
-            return;
+    private static void loadKvsFromStorage() {
+        if (SpringConfigLoader.getUseDb()) {
+            loadRows(com.edavalos.mtx.keystore.db.KeyStoreLoader.loadKeyValues());
         }
+        if (SpringConfigLoader.getUseNosql()) {
+            loadRows(com.edavalos.mtx.keystore.nosql.KeyStoreLoader.loadKeyValues());
+        }
+        System.out.println("KV pairs have been loaded from configured storage");
+    }
 
-        for (KvRow kvRow : KeyStoreLoader.loadKeyValues()) {
-            String appId = kvRow.appId();
+    private static void loadRows(List<? extends Record> rows) {
+        for (Record row : rows) {
+            String appId;
+            String key;
+            String val;
+            String timestamp;
+            if (row instanceof com.edavalos.mtx.keystore.db.KvRow dbRow) {
+                appId = dbRow.appId();
+                key = dbRow.key();
+                val = dbRow.val();
+                timestamp = dbRow.timestamp();
+            } else if (row instanceof com.edavalos.mtx.keystore.nosql.KvRow nosqlRow) {
+                appId = nosqlRow.appId();
+                key = nosqlRow.key();
+                val = nosqlRow.val();
+                timestamp = nosqlRow.timestamp();
+            } else {
+                throw new IllegalArgumentException("Unsupported key-value row type: " + row.getClass());
+            }
+
             if (!mainKeyStore.containsKey(appId)) {
                 mainKeyStore.put(appId, new HashMap<>());
             }
@@ -76,18 +96,17 @@ public class MtxKeyStore {
                 mainKeyStoreTimestamps.put(appId, new HashMap<>());
             }
 
-            mainKeyStore.get(appId).put(kvRow.key(), kvRow.val());
-            mainKeyStoreTimestamps.get(appId).put(kvRow.key(), kvRow.timestamp());
+            mainKeyStore.get(appId).put(key, val);
+            mainKeyStoreTimestamps.get(appId).put(key, timestamp);
         }
-        System.out.println("KV pairs have been loaded from database");
     }
 
     private static void saveKvsToDb() {
-        if (!SpringConfigLoader.getUseDb()) {
+        if (!SpringConfigLoader.getUseDb() && !SpringConfigLoader.getUseNosql()) {
             return;
         }
 
-        List<KvRow> kvRows = new ArrayList<>();
+        List<com.edavalos.mtx.keystore.db.KvRow> kvRows = new ArrayList<>();
         for (String appId : mainKeyStore.keySet()) {
             if (appId.equals(ApiConst.SAMPLE_APP_ID)) {
                 continue;
@@ -98,7 +117,7 @@ public class MtxKeyStore {
             assert keyVals.size() == keyTimestamps.size();
 
             for (Map.Entry<String, String> keyVal : keyVals.entrySet()) {
-                kvRows.add(new KvRow(
+                kvRows.add(new com.edavalos.mtx.keystore.db.KvRow(
                         appId,
                         keyVal.getKey(),
                         keyVal.getValue(),
@@ -106,8 +125,19 @@ public class MtxKeyStore {
                 ));
             }
         }
-        KeyStoreRecorder.recordKeyValue(kvRows);
-        System.out.println("KV pairs have been saved to database");
+
+        if (SpringConfigLoader.getUseDb()) {
+            com.edavalos.mtx.keystore.db.KeyStoreRecorder.recordKeyValue(kvRows);
+        }
+        if (SpringConfigLoader.getUseNosql()) {
+            com.edavalos.mtx.keystore.nosql.KeyStoreRecorder.recordKeyValue(
+                    kvRows.stream()
+                            .map(row -> new com.edavalos.mtx.keystore.nosql.KvRow(
+                                    row.appId(), row.key(), row.val(), row.timestamp()))
+                            .toList()
+            );
+        }
+        System.out.println("KV pairs have been saved to configured storage");
     }
 
     private static void scheduleSaveToDbTasks() {
