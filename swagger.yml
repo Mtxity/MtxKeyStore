@@ -208,6 +208,31 @@ paths:
                   status:
                     type: string
                     description: will always be 'alive' as long as this app can respond
+  /rcon/send:
+    post:
+      summary: Send a command to the configured Source RCON destination
+      parameters:
+        - name: message
+          in: query
+          required: true
+          description: RCON command to execute
+          schema:
+            type: string
+      responses:
+        '200':
+          description: RCON command sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
+        '400':
+          description: Request invalid
+        '502':
+          description: RCON destination failed
+        '503':
+          description: RCON is disabled
 
 
 components:

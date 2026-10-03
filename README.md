@@ -43,6 +43,12 @@ Important settings:
 | `db.storeInterval` | `5` | Persistence interval in minutes |
 | `db.insertAllAtOnce` | `true` | Writes the PostgreSQL snapshot in one statement |
 | `nosql.useNosql` | `false` | Enables Valkey load/save |
+| `rcon.enabled` | `false` | Enables the `/rcon/send` endpoint |
+| `rcon.host` | `localhost` | Configured RCON server hostname |
+| `rcon.port` | `25575` | Configured RCON server TCP port |
+| `rcon.password` | `${MTX_RCON_PASSWORD:}` | RCON password |
+| `rcon.connectTimeoutMillis` | `5000` | TCP connection timeout |
+| `rcon.readTimeoutMillis` | `5000` | RCON response timeout |
 
 The default PostgreSQL connection is:
 
@@ -137,6 +143,28 @@ API endpoints return JSON with this shape:
   }
 }
 ```
+
+### Send an RCON command
+
+RCON uses the standard Source RCON protocol. Enable it and set the destination and password
+before starting the service:
+
+```bash
+export MTX_RCON_PASSWORD='replace-with-the-rcon-password'
+./gradlew bootRun
+```
+
+Then send a command using the same API authorization as the other endpoints:
+
+```bash
+curl -X POST \
+  -H "Authorization: $MTX_AUTH_TOKEN" \
+  --data-urlencode 'message=say Hello from MtxKeyStore' \
+  'http://localhost:3000/rcon/send'
+```
+
+The RCON response is returned in `content`. The endpoint returns `503` when disabled and `502`
+when the configured destination cannot authenticate or be reached.
 
 Common status codes are `200` for success, `400` for missing parameters, `403` for missing or
 invalid authorization, and `404` for missing keys or application values.
