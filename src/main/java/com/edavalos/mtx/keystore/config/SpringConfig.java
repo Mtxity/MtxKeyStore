@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SpringConfig {
+    private transient final String SAMPLE_API_KEY = "changeme";
 
     @Value("${app.timezone}")
     String timezone;
@@ -12,7 +13,7 @@ public class SpringConfig {
     @Value("${api.requireAuthorization}")
     boolean requireAuthorization;
 
-    @Value("${api.authToken}")
+    @Value("${api.authToken:" + SAMPLE_API_KEY + "}")
     String authToken;
 
     @Value("${api.includeTimestampsInGetAll}")
