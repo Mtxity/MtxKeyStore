@@ -5,6 +5,68 @@ info:
   version: 0.1.0-SNAPSHOT
 
 paths:
+  /hash/get:
+    get:
+      summary: Get a value from any Valkey hash
+      parameters:
+        - name: hash_name
+          in: query
+          required: true
+          description: Valkey hash name
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Hash field name
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
+        '400':
+          description: Request invalid
+        '404':
+          description: Hash field not found
+  /hash/set:
+    post:
+      summary: Set a value in any Valkey hash
+      parameters:
+        - name: hash_name
+          in: query
+          required: true
+          description: Valkey hash name
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Hash field name
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: true
+          description: Value to store
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
+        '400':
+          description: Request invalid
   /kv/get:
     get:
       summary: Get a value given its key and associated application ID
@@ -179,6 +241,8 @@ components:
           oneOf:
             - $ref: '#/components/schemas/KeyValueInfo'
             - $ref: '#/components/schemas/ValueInfo'
+            - $ref: '#/components/schemas/HashValueInfo'
+            - $ref: '#/components/schemas/HashValueChangeInfo'
           description: Response body content
       required:
         - requestUri
@@ -226,3 +290,33 @@ components:
         - key
         - value
         - lastModifiedTimestamp
+
+    HashValueInfo:
+      type: object
+      properties:
+        hashName:
+          type: string
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - hashName
+        - key
+        - value
+    HashValueChangeInfo:
+      type: object
+      properties:
+        hashName:
+          type: string
+        key:
+          type: string
+        previousValue:
+          type: string
+          nullable: true
+        newValue:
+          type: string
+      required:
+        - hashName
+        - key
+        - newValue
