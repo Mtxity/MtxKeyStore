@@ -3,6 +3,8 @@ package com.edavalos.mtx.keystore.db;
 import com.edavalos.mtx.keystore.Util;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class QueryInsertKvBuilder extends QueryBuilder {
@@ -33,9 +35,8 @@ public class QueryInsertKvBuilder extends QueryBuilder {
         }
 
         String[] values = new String[this.rows.size()];
-        int i = 0;
-        for (KvRow row : this.rows) {
-            values[i++] = "('" + Util.getConcat("', '", row.appId(), row.key(), row.val(), row.timestamp()) + "')";
+        for (int i = 0; i < this.rows.size(); i++) {
+            values[i] = "(?, ?, ?, ?)";
         }
 
         return "INSERT INTO \"" + super.dbName + "\"." + super.table + " (" +
@@ -46,5 +47,16 @@ public class QueryInsertKvBuilder extends QueryBuilder {
                 " DO UPDATE SET" +
                 "   val = EXCLUDED.val," +
                 "   lastSetTimestamp = EXCLUDED.lastSetTimestamp;";
+    }
+
+    @Override
+    protected void setParameters(PreparedStatement statement) throws SQLException {
+        int parameterIndex = 1;
+        for (KvRow row : this.rows) {
+            statement.setString(parameterIndex++, row.appId());
+            statement.setString(parameterIndex++, row.key());
+            statement.setString(parameterIndex++, row.val());
+            statement.setString(parameterIndex++, row.timestamp());
+        }
     }
 }

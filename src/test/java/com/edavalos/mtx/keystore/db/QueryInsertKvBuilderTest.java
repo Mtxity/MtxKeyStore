@@ -27,11 +27,11 @@ public class QueryInsertKvBuilderTest {
         String expected = "INSERT INTO \"MtxKvStore\".kv (" +
                 "   app_id, key, val, lastSetTimestamp " +
                 ") VALUES " +
-                "('123', 'k1', 'v1', 'now')" +
+                "(?, ?, ?, ?)" +
                 " ON CONFLICT (app_id, key)" +
                 " DO UPDATE SET" +
                 "   val = EXCLUDED.val," +
-                "   lastSetTimestamp = EXCLUDED.lastSetTimestamp";
+                "   lastSetTimestamp = EXCLUDED.lastSetTimestamp;";
         String actual = queryBuilder.getQuery();
         assertEquals(expected, actual);
     }
@@ -48,10 +48,10 @@ public class QueryInsertKvBuilderTest {
         String expected = "INSERT INTO \"MtxKvStore\".kv (" +
                 "   app_id, key, val, lastSetTimestamp " +
                 ") VALUES " +
-                "('123', 'k1', 'v1', 'now'), " +
-                "('123', 'k2', 'v2', 'now'), " +
-                "('123', 'k3', 'v3', 'now'), " +
-                "('123', 'k4', 'v4', 'now')" +
+                "(?, ?, ?, ?), " +
+                "(?, ?, ?, ?), " +
+                "(?, ?, ?, ?), " +
+                "(?, ?, ?, ?)" +
                 " ON CONFLICT (app_id, key)" +
                 " DO UPDATE SET" +
                 "   val = EXCLUDED.val," +
