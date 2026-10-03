@@ -37,7 +37,7 @@ Important settings:
 | --- | --- | --- |
 | `server.port` | `3000` | HTTP port |
 | `api.requireAuthorization` | `true` | Requires the exact `Authorization` header value configured in `api.authToken` |
-| `api.authToken` | development token | Shared authorization token |
+| `api.authToken` | `${MTX_AUTH_TOKEN}` | Exact shared authorization token read from the `MTX_AUTH_TOKEN` environment variable |
 | `api.includeTimestampsInGetAll` | `true` | Includes last-modified timestamps in bulk reads |
 | `db.useDb` | `true` | Enables PostgreSQL load/save |
 | `db.storeInterval` | `5` | Persistence interval in minutes |
@@ -66,6 +66,17 @@ spring:
       url: redis://localhost:6379
 ```
 
+### Authorization token
+
+Set `MTX_AUTH_TOKEN` before starting the service. The value of that environment variable becomes
+the complete expected `Authorization` header value; it is not decoded or transformed as HTTP Basic
+Authentication. The variable must be set when authorization is enabled.
+
+```bash
+export MTX_AUTH_TOKEN='replace-with-a-secret-token'
+./gradlew bootRun
+```
+
 ## HTTP API
 
 When authorization is enabled, send the configured token exactly as the `Authorization` header.
@@ -81,7 +92,7 @@ curl 'http://localhost:3000/healthcheck'
 
 ```bash
 curl -X POST \
-  -H 'Authorization: basic e35acfe4e0b54d488b687a64914197ad' \
+  -H "Authorization: $MTX_AUTH_TOKEN" \
   'http://localhost:3000/kv/store?app_id=my-app&key=feature.flag&value=enabled'
 ```
 
@@ -91,7 +102,7 @@ Returns `200` with the previous and new values in `content`.
 
 ```bash
 curl \
-  -H 'Authorization: basic e35acfe4e0b54d488b687a64914197ad' \
+  -H "Authorization: $MTX_AUTH_TOKEN" \
   'http://localhost:3000/kv/get?app_id=my-app&key=feature.flag'
 ```
 
@@ -101,7 +112,7 @@ Returns `200` when found or `404` when the key does not exist.
 
 ```bash
 curl \
-  -H 'Authorization: basic e35acfe4e0b54d488b687a64914197ad' \
+  -H "Authorization: $MTX_AUTH_TOKEN" \
   'http://localhost:3000/kv/get-all?app_id=my-app'
 ```
 

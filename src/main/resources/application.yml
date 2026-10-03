@@ -9,8 +9,9 @@ app:
 api:
   # Should an authorization token be required?
   requireAuthorization: true
-  # Auth token (must be included in calls to this app if enabled)
-  authToken: basic e35acfe4e0b54d488b687a64914197ad
+  # Auth token (must be included in calls to this app if enabled).
+  # Set MTX_AUTH_TOKEN in the environment before starting the service.
+  authToken: ${MTX_AUTH_TOKEN}
   # Should calls to /kv/get-all include lastModifiedTimestamps? (more resource intensive)
   includeTimestampsInGetAll: true
 
