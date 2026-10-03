@@ -31,5 +31,23 @@ public class SpringConfig {
     @Value("${nosql.useNosql}")
     boolean useNosql;
 
+    @Value("${rcon.enabled:false}")
+    boolean rconEnabled;
+
+    @Value("${rcon.host:localhost}")
+    String rconHost;
+
+    @Value("${rcon.port:25575}")
+    int rconPort;
+
+    @Value("${rcon.password:}")
+    String rconPassword;
+
+    @Value("${rcon.connectTimeoutMillis:5000}")
+    int rconConnectTimeoutMillis;
+
+    @Value("${rcon.readTimeoutMillis:5000}")
+    int rconReadTimeoutMillis;
+
     SpringConfig() { }
 }

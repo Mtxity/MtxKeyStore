@@ -28,6 +28,16 @@ nosql:
   # Should key-value pairs be backed up in a Valkey database?
   useNosql: false
 
+rcon:
+  # Should the /rcon/send endpoint be available?
+  enabled: false
+  host: localhost
+  port: 25575
+  # Set MTX_RCON_PASSWORD in the environment before starting the service.
+  password: ${MTX_RCON_PASSWORD:}
+  connectTimeoutMillis: 5000
+  readTimeoutMillis: 5000
+
 spring:
   data:
     redis:

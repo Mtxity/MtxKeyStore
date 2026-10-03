@@ -79,6 +79,33 @@ public class SpringConfigLoader {
         return config.useNosql;
     }
 
+    // --- config section: rcon
+    // TODO: Validate this
+
+    public static boolean getRconEnabled() {
+        return config.rconEnabled;
+    }
+
+    public static String getRconHost() {
+        return config.rconHost;
+    }
+
+    public static int getRconPort() {
+        return config.rconPort;
+    }
+
+    public static String getRconPassword() {
+        return config.rconPassword;
+    }
+
+    public static int getRconConnectTimeoutMillis() {
+        return config.rconConnectTimeoutMillis;
+    }
+
+    public static int getRconReadTimeoutMillis() {
+        return config.rconReadTimeoutMillis;
+    }
+
     public static StringRedisTemplate getRedisTemplate() {
         return redisTemplate;
     }
