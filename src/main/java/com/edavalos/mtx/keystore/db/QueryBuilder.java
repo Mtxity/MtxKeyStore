@@ -17,9 +17,15 @@ public abstract class QueryBuilder {
 
     protected abstract String getQuery();
 
+    protected void setParameters(PreparedStatement statement) throws SQLException {
+        // Queries without parameters do not need any additional setup.
+    }
+
     public PreparedStatement getPreparedStatement() {
         try {
-            return this.connection.prepareStatement(this.getQuery());
+            PreparedStatement statement = this.connection.prepareStatement(this.getQuery());
+            this.setParameters(statement);
+            return statement;
         } catch (SQLException e) {
             System.err.println("Failed to create sql query: " + e);
             throw new RuntimeException(e);
