@@ -8,7 +8,9 @@ public enum HttpResponse {
     RESPONSE_400(400, HttpStatus.BAD_REQUEST, "Bad Request"),
     RESPONSE_401(401, HttpStatus.UNAUTHORIZED, "Unauthorized"),
     RESPONSE_403(403, HttpStatus.FORBIDDEN, "Forbidden"),
-    RESPONSE_404(404, HttpStatus.NOT_FOUND, "Not Found");
+    RESPONSE_404(404, HttpStatus.NOT_FOUND, "Not Found"),
+    RESPONSE_502(502, HttpStatus.BAD_GATEWAY, "Bad Gateway"),
+    RESPONSE_503(503, HttpStatus.SERVICE_UNAVAILABLE, "Service Unavailable");
 
     private final int code;
     private final HttpStatus httpStatus;
