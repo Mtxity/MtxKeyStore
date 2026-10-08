@@ -39,4 +39,11 @@ public final class KeyStoreRecorder {
 
         System.out.println("KV pairs stored in Valkey");
     }
+
+    public static void deleteKeyValue(String appId, String key) {
+        SpringConfigLoader.getRedisTemplate()
+                .opsForHash()
+                .delete(NoSqlConst.getAppKey(appId), key);
+        System.out.println("KV pair deleted from Valkey");
+    }
 }

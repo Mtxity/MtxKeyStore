@@ -49,6 +49,23 @@ public final class KeyStoreRecorder {
         }
     }
 
+    public static void deleteKeyValue(String appId, String key) {
+        try (Connection connection = Util.connectToDb(
+                DbConst.POSTGRES_DRIVER_CLASSNAME,
+                DbConst.POSTGRES_URL + DbConst.POSTGRES_DB_NAME,
+                DbConst.POSTGRES_DB_USER,
+                DbConst.POSTGRES_DB_PASS);
+             PreparedStatement statement = new QueryDeleteKvBuilder(connection, appId, key)
+                     .getPreparedStatement()) {
+            statement.executeUpdate();
+            connection.commit();
+            System.out.println("KV pair deleted from database");
+        } catch (SQLException e) {
+            System.err.println("Failed to delete sql row: " + e);
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void recordKeyValue(List<KvRow> kvRows) {
         Connection connection = null;
         PreparedStatement statement = null;
