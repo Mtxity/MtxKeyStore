@@ -114,6 +114,17 @@ curl \
 
 Returns `200` when found or `404` when the key does not exist.
 
+### Delete a value
+
+```bash
+curl -X DELETE \
+  -H "Authorization: $MTX_AUTH_TOKEN" \
+  'http://localhost:3000/kv/delete?app_id=my-app&key=feature.flag'
+```
+
+Returns `200` with the deleted value, or `404` when the key does not exist. When persistence is
+enabled, the value is removed from the configured backend immediately.
+
 ### Read all values for an application
 
 ```bash
@@ -191,6 +202,6 @@ Valkey entries use the following key layout:
 ## Notes
 
 - Values, keys, and application IDs are strings.
-- The service has no delete endpoint.
+- Values can be deleted with `DELETE /kv/delete`.
 - The configured authorization token is a development default; replace it before exposing the
   service outside a trusted environment.

@@ -184,6 +184,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
+  /kv/delete:
+    delete:
+      summary: Delete a value given its key and associated application ID
+      parameters:
+        - name: app_id
+          in: query
+          required: true
+          description: Application ID associated with this k/v pair
+          schema:
+            type: string
+        - name: key
+          in: query
+          required: true
+          description: Key to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Value successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '403':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          description: Key not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
   /healthcheck:
     get:
       summary: See if this server is on
